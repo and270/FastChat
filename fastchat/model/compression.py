@@ -134,12 +134,14 @@ def load_compress_model(model_path, device, torch_dtype, use_fast, revision="mai
         # `model_path` is a cached Hugging Face repo
         # We don't necessarily need to download the model' repo again if there is a cache.
         # So check the default huggingface cache first.
+        home_dir = os.getenv("HOME") or os.getenv("USERPROFILE")
         model_path_temp = os.path.join(
-            os.getenv("HOME"),
+            home_dir,
             ".cache/huggingface/hub",
             "models--" + model_path.replace("/", "--"),
             "snapshots/",
         )
+
         downloaded = False
         if os.path.exists(model_path_temp):
             temp_last_dir = os.listdir(model_path_temp)[-1]
